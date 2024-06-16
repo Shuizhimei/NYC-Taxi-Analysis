@@ -1,0 +1,58 @@
+---
+title: "周期性报告"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 逐小时
+
+### 导入数据集
+```{r}
+
+flow <- read.csv("date_hour_flow_nyctimever.csv")
+flow <- ts(flow$flow)
+```
+
+
+### 时间序列图像和ACF Plot
+```{r}
+plot(flow)
+acf(flow, lag.max = 100)
+```
+
+观察到ACF图具有周期性的波动，证明存在周期，而且可以大致看出来周期为24。
+
+
+
+
+
+### 谱密度
+```{r}
+
+spec.pgram(flow, kernel = kernel("daniell"), taper=0, log="no", main = "Smoothed Periodogram")
+abline(v = 1/24, lty = 2, col = "red", lwd = 1)
+axis(1, at = 1/24, labels = "1/24")
+
+```
+
+使用smoothed periodogram 对谱密度进行估计，发现在 $\omega = 1/24$ 位置上有明显凸起，证明频率为1/24，即周期为24。
+
+
+### 分解
+
+```{r}
+transformed <- ts(flow,frequency=24) # period = 24
+trans <- decompose(transformed)  #对时间序列数据进行分解
+plot(trans)
+```
+
+
+按照周期为24对时间序列进行分解，发现去除“周期为24”这个属性之后时间序列的seasonal部分为高频状态，则可以认为周期性已经被去除。因此原时间序列的周期确实为24。
+
+### 结论
+综上，该时间序列周期为24h。
