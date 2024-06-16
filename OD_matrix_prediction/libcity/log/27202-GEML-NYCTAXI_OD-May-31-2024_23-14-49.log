@@ -1,0 +1,135 @@
+2024-05-31 23:14:49,907 - INFO - Log directory: ./libcity/log
+2024-05-31 23:14:49,908 - INFO - Begin pipeline, task=traffic_state_pred, model_name=GEML, dataset_name=NYCTAXI_OD, exp_id=27202
+2024-05-31 23:14:49,908 - INFO - {'task': 'traffic_state_pred', 'model': 'GEML', 'dataset': 'NYCTAXI_OD', 'saved_model': True, 'train': True, 'seed': 0, 'gpu_id': 1, 'train_rate': 0.8, 'eval_rate': 0.1, 'max_epoch': 10, 'dataset_class': 'TrafficStateOdDataset', 'executor': 'GEMLExecutor', 'evaluator': 'TrafficStateEvaluator', 'embed_dim': 32, 'p_interval': 1, 'loss_p0': 0.5, 'loss_p1': 0.25, 'loss_p2': 0.25, 'scaler': 'minmax01', 'load_external': False, 'normal_external': False, 'ext_scaler': 'none', 'add_time_in_day': True, 'add_day_in_week': False, 'use_row_column': True, 'learner': 'adam', 'learning_rate': 0.001, 'weight_decay': 1e-06, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_decay': False, 'clip_grad_norm': False, 'use_early_stop': True, 'patience': 50, 'batch_size': 64, 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'input_window': 5, 'output_window': 5, 'gpu': True, 'train_loss': 'none', 'epoch': 0, 'lr_epsilon': 1e-08, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_scheduler': 'multisteplr', 'lr_decay_ratio': 0.1, 'steps': [5, 20, 40, 70], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 10, 'lr_threshold': 0.0001, 'max_grad_norm': 1.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Polygon'], 'Polygon': {}}, 'od': {'including_types': ['state'], 'state': {'origin_id': 'geo_id', 'destination_id': 'geo_id', 'flow': 'num'}}, 'data_col': ['flow'], 'data_files': ['NYCTAXI202310-202403'], 'geo_file': 'NYCTAXI202310-202403', 'rel_file': 'NYCTAXI202310-202403', 'output_dim': 1, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'time_intervals': 3600, 'device': device(type='cuda', index=1), 'exp_id': 27202}
+2024-05-31 23:14:49,938 - INFO - Loaded file NYCTAXI202310-202403.geo, num_nodes=263
+2024-05-31 23:14:49,958 - INFO - set_weight_link_or_dist: dist
+2024-05-31 23:14:49,958 - INFO - init_weight_inf_or_zero: inf
+2024-05-31 23:14:50,083 - INFO - Loaded file NYCTAXI202310-202403.rel, shape=(263, 263)
+2024-05-31 23:14:50,083 - INFO - Start Calculate the weight by Gauss kernel!
+2024-05-31 23:14:50,105 - INFO - set_weight_link_or_dist: dist
+2024-05-31 23:14:50,105 - INFO - init_weight_inf_or_zero: inf
+2024-05-31 23:14:50,227 - INFO - Loaded file NYCTAXI202310-202403.rel, shape=(263, 263)
+2024-05-31 23:14:50,227 - INFO - Start Calculate the weight by Gauss kernel!
+2024-05-31 23:14:50,228 - INFO - Loading ./libcity/cache/dataset_cache/od_based_NYCTAXI_OD_5_5_0.8_0.1_minmax01_64_False_True_False_True.npz
+2024-05-31 23:15:40,891 - INFO - train	x: (3506, 5, 263, 263, 1), y: (3506, 5, 263, 263, 1)
+2024-05-31 23:15:40,892 - INFO - eval	x: (438, 5, 263, 263, 1), y: (438, 5, 263, 263, 1)
+2024-05-31 23:15:40,892 - INFO - test	x: (438, 5, 263, 263, 1), y: (438, 5, 263, 263, 1)
+2024-05-31 23:15:44,491 - INFO - MinMax01Scaler max: 103.0, min: 0.0
+2024-05-31 23:15:44,491 - INFO - NoneScaler
+2024-05-31 23:16:46,605 - INFO - GEML(
+  (GCN_ge): GCN(
+    (gcn): ModuleList(
+      (0-1): 2 x GraphConvolution(
+        (activation): ReLU()
+      )
+    )
+  )
+  (GCN_se): GCN(
+    (gcn): ModuleList(
+      (0-1): 2 x GraphConvolution(
+        (activation): ReLU()
+      )
+    )
+  )
+  (LSTM): SLSTM(
+    (f_gate): Sequential(
+      (0): Linear(in_features=128, out_features=64, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (i_gate): Sequential(
+      (0): Linear(in_features=128, out_features=64, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (o_gate): Sequential(
+      (0): Linear(in_features=128, out_features=64, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (g_gate): Sequential(
+      (0): Linear(in_features=128, out_features=64, bias=True)
+      (1): Tanh()
+    )
+    (tanh): Tanh()
+  )
+  (mutiLearning): MutiLearning()
+)
+2024-05-31 23:16:46,606 - INFO - GCN_ge.gcn.0.weight	torch.Size([263, 32])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - GCN_ge.gcn.1.weight	torch.Size([32, 32])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - GCN_se.gcn.0.weight	torch.Size([263, 32])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - GCN_se.gcn.1.weight	torch.Size([32, 32])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - LSTM.f_gate.0.weight	torch.Size([64, 128])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - LSTM.f_gate.0.bias	torch.Size([64])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - LSTM.i_gate.0.weight	torch.Size([64, 128])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - LSTM.i_gate.0.bias	torch.Size([64])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - LSTM.o_gate.0.weight	torch.Size([64, 128])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - LSTM.o_gate.0.bias	torch.Size([64])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - LSTM.g_gate.0.weight	torch.Size([64, 128])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - LSTM.g_gate.0.bias	torch.Size([64])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - mutiLearning.transition	torch.Size([64, 64])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - mutiLearning.project_in	torch.Size([64, 1])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - mutiLearning.project_out	torch.Size([64, 1])	cuda:1	True
+2024-05-31 23:16:46,606 - INFO - Total parameter numbers: 56128
+2024-05-31 23:16:46,606 - INFO - You select `adam` optimizer.
+2024-05-31 23:16:46,607 - WARNING - Received none train loss func and will use the loss func defined in the model.
+2024-05-31 23:16:46,607 - INFO - Start training ...
+2024-05-31 23:16:46,607 - INFO - num_batches:55
+2024-05-31 23:17:18,589 - INFO - epoch complete!
+2024-05-31 23:17:18,590 - INFO - evaluating now!
+2024-05-31 23:17:22,134 - INFO - Epoch [0/10] train_loss: 650.6029, val_loss: 745.3607, lr: 0.001000, 35.53s
+2024-05-31 23:17:22,139 - INFO - Saved model at 0
+2024-05-31 23:17:22,139 - INFO - Val loss decrease from inf to 745.3607, saving to ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD_epoch0.tar
+2024-05-31 23:17:53,804 - INFO - epoch complete!
+2024-05-31 23:17:53,805 - INFO - evaluating now!
+2024-05-31 23:17:57,424 - INFO - Epoch [1/10] train_loss: 633.2622, val_loss: 745.0426, lr: 0.001000, 35.28s
+2024-05-31 23:17:57,429 - INFO - Saved model at 1
+2024-05-31 23:17:57,429 - INFO - Val loss decrease from 745.3607 to 745.0426, saving to ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD_epoch1.tar
+2024-05-31 23:18:28,919 - INFO - epoch complete!
+2024-05-31 23:18:28,920 - INFO - evaluating now!
+2024-05-31 23:18:32,516 - INFO - Epoch [2/10] train_loss: 635.2168, val_loss: 752.6392, lr: 0.001000, 35.09s
+2024-05-31 23:19:04,018 - INFO - epoch complete!
+2024-05-31 23:19:04,019 - INFO - evaluating now!
+2024-05-31 23:19:07,564 - INFO - Epoch [3/10] train_loss: 617.2538, val_loss: 701.3935, lr: 0.001000, 35.05s
+2024-05-31 23:19:07,568 - INFO - Saved model at 3
+2024-05-31 23:19:07,568 - INFO - Val loss decrease from 745.0426 to 701.3935, saving to ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD_epoch3.tar
+2024-05-31 23:19:39,217 - INFO - epoch complete!
+2024-05-31 23:19:39,218 - INFO - evaluating now!
+2024-05-31 23:19:42,757 - INFO - Epoch [4/10] train_loss: 598.3444, val_loss: 706.0709, lr: 0.001000, 35.19s
+2024-05-31 23:20:14,374 - INFO - epoch complete!
+2024-05-31 23:20:14,376 - INFO - evaluating now!
+2024-05-31 23:20:17,928 - INFO - Epoch [5/10] train_loss: 598.5200, val_loss: 690.1803, lr: 0.001000, 35.17s
+2024-05-31 23:20:17,933 - INFO - Saved model at 5
+2024-05-31 23:20:17,933 - INFO - Val loss decrease from 701.3935 to 690.1803, saving to ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD_epoch5.tar
+2024-05-31 23:20:49,700 - INFO - epoch complete!
+2024-05-31 23:20:49,701 - INFO - evaluating now!
+2024-05-31 23:20:53,285 - INFO - Epoch [6/10] train_loss: 581.0835, val_loss: 683.7588, lr: 0.001000, 35.35s
+2024-05-31 23:20:53,289 - INFO - Saved model at 6
+2024-05-31 23:20:53,289 - INFO - Val loss decrease from 690.1803 to 683.7588, saving to ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD_epoch6.tar
+2024-05-31 23:21:25,261 - INFO - epoch complete!
+2024-05-31 23:21:25,263 - INFO - evaluating now!
+2024-05-31 23:21:28,830 - INFO - Epoch [7/10] train_loss: 575.4653, val_loss: 677.8134, lr: 0.001000, 35.54s
+2024-05-31 23:21:28,835 - INFO - Saved model at 7
+2024-05-31 23:21:28,835 - INFO - Val loss decrease from 683.7588 to 677.8134, saving to ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD_epoch7.tar
+2024-05-31 23:22:00,378 - INFO - epoch complete!
+2024-05-31 23:22:00,379 - INFO - evaluating now!
+2024-05-31 23:22:03,914 - INFO - Epoch [8/10] train_loss: 574.0373, val_loss: 673.5198, lr: 0.001000, 35.08s
+2024-05-31 23:22:03,919 - INFO - Saved model at 8
+2024-05-31 23:22:03,919 - INFO - Val loss decrease from 677.8134 to 673.5198, saving to ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD_epoch8.tar
+2024-05-31 23:22:35,139 - INFO - epoch complete!
+2024-05-31 23:22:35,140 - INFO - evaluating now!
+2024-05-31 23:22:38,682 - INFO - Epoch [9/10] train_loss: 568.6387, val_loss: 670.5500, lr: 0.001000, 34.76s
+2024-05-31 23:22:38,686 - INFO - Saved model at 9
+2024-05-31 23:22:38,686 - INFO - Val loss decrease from 673.5198 to 670.5500, saving to ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD_epoch9.tar
+2024-05-31 23:22:38,686 - INFO - Trained totally 10 epochs, average train time is 31.640s, average eval time is 3.562s
+2024-05-31 23:22:38,690 - INFO - Loaded model at 9
+2024-05-31 23:22:38,690 - INFO - Saved model at ./libcity/cache/27202/model_cache/GEML_NYCTAXI_OD.m
+2024-05-31 23:22:38,694 - INFO - Start evaluating ...
+2024-05-31 23:23:38,426 - INFO - Note that you select the single mode to evaluate!
+2024-05-31 23:23:38,431 - INFO - Evaluate result is saved at ./libcity/cache/27202/evaluate_cache/2024_05_31_23_23_38_GEML_NYCTAXI_OD.csv
+2024-05-31 23:23:38,441 - INFO - 
+        MAE  MAPE       MSE  ...  masked_RMSE        R2          EVAR
+1  0.154934   inf  1.657541  ...     8.638167 -4.577745 -4.496966e+00
+2  0.048715   inf  0.298477  ...     3.962981 -0.008045 -3.004074e-05
+3  0.048799   inf  0.298701  ...     3.958918 -0.008035  2.980232e-07
+4  0.048764   inf  0.297156  ...     3.950693 -0.008054  7.569790e-06
+5  0.049859   inf  0.301272  ...     3.961136 -0.009718 -1.387835e-03
+
+[5 rows x 10 columns]

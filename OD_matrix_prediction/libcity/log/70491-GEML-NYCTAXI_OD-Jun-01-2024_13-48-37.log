@@ -1,0 +1,505 @@
+2024-06-01 13:48:37,759 - INFO - Log directory: ./libcity/log
+2024-06-01 13:48:37,760 - INFO - Begin pipeline, task=traffic_state_pred, model_name=GEML, dataset_name=NYCTAXI_OD, exp_id=70491
+2024-06-01 13:48:37,760 - INFO - {'task': 'traffic_state_pred', 'model': 'GEML', 'dataset': 'NYCTAXI_OD', 'saved_model': True, 'train': True, 'seed': 0, 'gpu_id': 0, 'train_rate': 0.8, 'eval_rate': 0.1, 'max_epoch': 100, 'dataset_class': 'TrafficStateOdDataset', 'executor': 'GEMLExecutor', 'evaluator': 'TrafficStateEvaluator', 'embed_dim': 128, 'p_interval': 1, 'loss_p0': 0.5, 'loss_p1': 0.25, 'loss_p2': 0.25, 'scaler': 'minmax01', 'load_external': False, 'normal_external': False, 'ext_scaler': 'none', 'add_time_in_day': True, 'add_day_in_week': False, 'use_row_column': True, 'learner': 'adam', 'learning_rate': 0.001, 'weight_decay': 1e-06, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_decay': False, 'clip_grad_norm': False, 'use_early_stop': True, 'patience': 50, 'batch_size': 64, 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'input_window': 5, 'output_window': 5, 'gpu': True, 'train_loss': 'none', 'epoch': 0, 'lr_epsilon': 1e-08, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_scheduler': 'multisteplr', 'lr_decay_ratio': 0.1, 'steps': [5, 20, 40, 70], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 10, 'lr_threshold': 0.0001, 'max_grad_norm': 1.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Polygon'], 'Polygon': {}}, 'od': {'including_types': ['state'], 'state': {'origin_id': 'geo_id', 'destination_id': 'geo_id', 'flow': 'num'}}, 'data_col': ['flow'], 'data_files': ['NYCTAXI202310-202403'], 'geo_file': 'NYCTAXI202310-202403', 'rel_file': 'NYCTAXI202310-202403', 'output_dim': 1, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'time_intervals': 3600, 'device': device(type='cuda', index=0), 'exp_id': 70491}
+2024-06-01 13:48:37,790 - INFO - Loaded file NYCTAXI202310-202403.geo, num_nodes=263
+2024-06-01 13:48:37,809 - INFO - set_weight_link_or_dist: dist
+2024-06-01 13:48:37,809 - INFO - init_weight_inf_or_zero: inf
+2024-06-01 13:48:37,932 - INFO - Loaded file NYCTAXI202310-202403.rel, shape=(263, 263)
+2024-06-01 13:48:37,932 - INFO - Start Calculate the weight by Gauss kernel!
+2024-06-01 13:48:37,953 - INFO - set_weight_link_or_dist: dist
+2024-06-01 13:48:37,953 - INFO - init_weight_inf_or_zero: inf
+2024-06-01 13:48:38,072 - INFO - Loaded file NYCTAXI202310-202403.rel, shape=(263, 263)
+2024-06-01 13:48:38,072 - INFO - Start Calculate the weight by Gauss kernel!
+2024-06-01 13:48:38,073 - INFO - Loading ./libcity/cache/dataset_cache/od_based_NYCTAXI_OD_5_5_0.8_0.1_minmax01_64_False_True_False_True.npz
+2024-06-01 13:49:19,426 - INFO - train	x: (3506, 5, 263, 263, 1), y: (3506, 5, 263, 263, 1)
+2024-06-01 13:49:19,427 - INFO - eval	x: (438, 5, 263, 263, 1), y: (438, 5, 263, 263, 1)
+2024-06-01 13:49:19,427 - INFO - test	x: (438, 5, 263, 263, 1), y: (438, 5, 263, 263, 1)
+2024-06-01 13:49:22,068 - INFO - MinMax01Scaler max: 103.0, min: 0.0
+2024-06-01 13:49:22,068 - INFO - NoneScaler
+2024-06-01 13:50:16,438 - INFO - GEML(
+  (GCN_ge): GCN(
+    (gcn): ModuleList(
+      (0-1): 2 x GraphConvolution(
+        (activation): ReLU()
+      )
+    )
+  )
+  (GCN_se): GCN(
+    (gcn): ModuleList(
+      (0-1): 2 x GraphConvolution(
+        (activation): ReLU()
+      )
+    )
+  )
+  (LSTM): SLSTM(
+    (f_gate): Sequential(
+      (0): Linear(in_features=512, out_features=256, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (i_gate): Sequential(
+      (0): Linear(in_features=512, out_features=256, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (o_gate): Sequential(
+      (0): Linear(in_features=512, out_features=256, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (g_gate): Sequential(
+      (0): Linear(in_features=512, out_features=256, bias=True)
+      (1): Tanh()
+    )
+    (tanh): Tanh()
+  )
+  (mutiLearning): MutiLearning()
+)
+2024-06-01 13:50:16,439 - INFO - GCN_ge.gcn.0.weight	torch.Size([263, 128])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - GCN_ge.gcn.1.weight	torch.Size([128, 128])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - GCN_se.gcn.0.weight	torch.Size([263, 128])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - GCN_se.gcn.1.weight	torch.Size([128, 128])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - LSTM.f_gate.0.weight	torch.Size([256, 512])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - LSTM.f_gate.0.bias	torch.Size([256])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - LSTM.i_gate.0.weight	torch.Size([256, 512])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - LSTM.i_gate.0.bias	torch.Size([256])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - LSTM.o_gate.0.weight	torch.Size([256, 512])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - LSTM.o_gate.0.bias	torch.Size([256])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - LSTM.g_gate.0.weight	torch.Size([256, 512])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - LSTM.g_gate.0.bias	torch.Size([256])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - mutiLearning.transition	torch.Size([256, 256])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - mutiLearning.project_in	torch.Size([256, 1])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - mutiLearning.project_out	torch.Size([256, 1])	cuda:0	True
+2024-06-01 13:50:16,439 - INFO - Total parameter numbers: 691456
+2024-06-01 13:50:16,439 - INFO - You select `adam` optimizer.
+2024-06-01 13:50:16,440 - WARNING - Received none train loss func and will use the loss func defined in the model.
+2024-06-01 13:50:16,440 - INFO - Start training ...
+2024-06-01 13:50:16,440 - INFO - num_batches:55
+2024-06-01 13:52:23,960 - INFO - epoch complete!
+2024-06-01 13:52:23,961 - INFO - evaluating now!
+2024-06-01 13:52:38,185 - INFO - Epoch [0/100] train_loss: 1480.7804, val_loss: 2313.3590, lr: 0.001000, 141.75s
+2024-06-01 13:52:38,202 - INFO - Saved model at 0
+2024-06-01 13:52:38,202 - INFO - Val loss decrease from inf to 2313.3590, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch0.tar
+2024-06-01 13:54:41,068 - INFO - epoch complete!
+2024-06-01 13:54:41,068 - INFO - evaluating now!
+2024-06-01 13:54:54,905 - INFO - Epoch [1/100] train_loss: 2061.9236, val_loss: 2123.9688, lr: 0.001000, 136.70s
+2024-06-01 13:54:54,917 - INFO - Saved model at 1
+2024-06-01 13:54:54,918 - INFO - Val loss decrease from 2313.3590 to 2123.9688, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch1.tar
+2024-06-01 13:56:57,440 - INFO - epoch complete!
+2024-06-01 13:56:57,441 - INFO - evaluating now!
+2024-06-01 13:57:11,414 - INFO - Epoch [2/100] train_loss: 1899.8739, val_loss: 1970.4860, lr: 0.001000, 136.50s
+2024-06-01 13:57:11,426 - INFO - Saved model at 2
+2024-06-01 13:57:11,426 - INFO - Val loss decrease from 2123.9688 to 1970.4860, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch2.tar
+2024-06-01 13:59:13,351 - INFO - epoch complete!
+2024-06-01 13:59:13,351 - INFO - evaluating now!
+2024-06-01 13:59:27,290 - INFO - Epoch [3/100] train_loss: 1763.6668, val_loss: 1838.4878, lr: 0.001000, 135.86s
+2024-06-01 13:59:27,303 - INFO - Saved model at 3
+2024-06-01 13:59:27,303 - INFO - Val loss decrease from 1970.4860 to 1838.4878, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch3.tar
+2024-06-01 14:01:29,170 - INFO - epoch complete!
+2024-06-01 14:01:29,171 - INFO - evaluating now!
+2024-06-01 14:01:42,839 - INFO - Epoch [4/100] train_loss: 1644.6001, val_loss: 1721.6241, lr: 0.001000, 135.54s
+2024-06-01 14:01:42,852 - INFO - Saved model at 4
+2024-06-01 14:01:42,852 - INFO - Val loss decrease from 1838.4878 to 1721.6241, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch4.tar
+2024-06-01 14:03:45,375 - INFO - epoch complete!
+2024-06-01 14:03:45,376 - INFO - evaluating now!
+2024-06-01 14:03:59,252 - INFO - Epoch [5/100] train_loss: 1538.5229, val_loss: 1616.7910, lr: 0.001000, 136.40s
+2024-06-01 14:03:59,265 - INFO - Saved model at 5
+2024-06-01 14:03:59,265 - INFO - Val loss decrease from 1721.6241 to 1616.7910, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch5.tar
+2024-06-01 14:06:00,887 - INFO - epoch complete!
+2024-06-01 14:06:00,888 - INFO - evaluating now!
+2024-06-01 14:06:14,387 - INFO - Epoch [6/100] train_loss: 1442.9597, val_loss: 1522.0483, lr: 0.001000, 135.12s
+2024-06-01 14:06:14,400 - INFO - Saved model at 6
+2024-06-01 14:06:14,400 - INFO - Val loss decrease from 1616.7910 to 1522.0483, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch6.tar
+2024-06-01 14:08:15,304 - INFO - epoch complete!
+2024-06-01 14:08:15,304 - INFO - evaluating now!
+2024-06-01 14:08:28,553 - INFO - Epoch [7/100] train_loss: 1356.1572, val_loss: 1435.8525, lr: 0.001000, 134.15s
+2024-06-01 14:08:28,565 - INFO - Saved model at 7
+2024-06-01 14:08:28,566 - INFO - Val loss decrease from 1522.0483 to 1435.8525, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch7.tar
+2024-06-01 14:10:29,298 - INFO - epoch complete!
+2024-06-01 14:10:29,299 - INFO - evaluating now!
+2024-06-01 14:10:42,687 - INFO - Epoch [8/100] train_loss: 1276.8908, val_loss: 1357.0291, lr: 0.001000, 134.12s
+2024-06-01 14:10:42,700 - INFO - Saved model at 8
+2024-06-01 14:10:42,700 - INFO - Val loss decrease from 1435.8525 to 1357.0291, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch8.tar
+2024-06-01 14:12:46,420 - INFO - epoch complete!
+2024-06-01 14:12:46,421 - INFO - evaluating now!
+2024-06-01 14:13:01,669 - INFO - Epoch [9/100] train_loss: 1204.2496, val_loss: 1284.8082, lr: 0.001000, 138.97s
+2024-06-01 14:13:01,682 - INFO - Saved model at 9
+2024-06-01 14:13:01,682 - INFO - Val loss decrease from 1357.0291 to 1284.8082, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch9.tar
+2024-06-01 14:15:15,517 - INFO - epoch complete!
+2024-06-01 14:15:15,518 - INFO - evaluating now!
+2024-06-01 14:15:29,462 - INFO - Epoch [10/100] train_loss: 1137.6054, val_loss: 1218.3591, lr: 0.001000, 147.78s
+2024-06-01 14:15:29,475 - INFO - Saved model at 10
+2024-06-01 14:15:29,475 - INFO - Val loss decrease from 1284.8082 to 1218.3591, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch10.tar
+2024-06-01 14:17:44,335 - INFO - epoch complete!
+2024-06-01 14:17:44,335 - INFO - evaluating now!
+2024-06-01 14:17:58,322 - INFO - Epoch [11/100] train_loss: 1076.3109, val_loss: 1157.4456, lr: 0.001000, 148.85s
+2024-06-01 14:17:58,334 - INFO - Saved model at 11
+2024-06-01 14:17:58,335 - INFO - Val loss decrease from 1218.3591 to 1157.4456, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch11.tar
+2024-06-01 14:20:01,144 - INFO - epoch complete!
+2024-06-01 14:20:01,145 - INFO - evaluating now!
+2024-06-01 14:20:15,020 - INFO - Epoch [12/100] train_loss: 1020.0036, val_loss: 1101.4338, lr: 0.001000, 136.68s
+2024-06-01 14:20:15,032 - INFO - Saved model at 12
+2024-06-01 14:20:15,032 - INFO - Val loss decrease from 1157.4456 to 1101.4338, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch12.tar
+2024-06-01 14:22:17,868 - INFO - epoch complete!
+2024-06-01 14:22:17,869 - INFO - evaluating now!
+2024-06-01 14:22:31,707 - INFO - Epoch [13/100] train_loss: 968.2417, val_loss: 1050.0889, lr: 0.001000, 136.67s
+2024-06-01 14:22:31,720 - INFO - Saved model at 13
+2024-06-01 14:22:31,720 - INFO - Val loss decrease from 1101.4338 to 1050.0889, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch13.tar
+2024-06-01 14:24:34,598 - INFO - epoch complete!
+2024-06-01 14:24:34,599 - INFO - evaluating now!
+2024-06-01 14:24:48,396 - INFO - Epoch [14/100] train_loss: 920.7310, val_loss: 1003.0232, lr: 0.001000, 136.68s
+2024-06-01 14:24:48,408 - INFO - Saved model at 14
+2024-06-01 14:24:48,408 - INFO - Val loss decrease from 1050.0889 to 1003.0232, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch14.tar
+2024-06-01 14:26:51,282 - INFO - epoch complete!
+2024-06-01 14:26:51,282 - INFO - evaluating now!
+2024-06-01 14:27:05,239 - INFO - Epoch [15/100] train_loss: 877.2155, val_loss: 959.8401, lr: 0.001000, 136.83s
+2024-06-01 14:27:05,252 - INFO - Saved model at 15
+2024-06-01 14:27:05,252 - INFO - Val loss decrease from 1003.0232 to 959.8401, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch15.tar
+2024-06-01 14:29:08,113 - INFO - epoch complete!
+2024-06-01 14:29:08,115 - INFO - evaluating now!
+2024-06-01 14:29:22,050 - INFO - Epoch [16/100] train_loss: 837.3573, val_loss: 920.4939, lr: 0.001000, 136.80s
+2024-06-01 14:29:22,063 - INFO - Saved model at 16
+2024-06-01 14:29:22,063 - INFO - Val loss decrease from 959.8401 to 920.4939, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch16.tar
+2024-06-01 14:31:25,188 - INFO - epoch complete!
+2024-06-01 14:31:25,188 - INFO - evaluating now!
+2024-06-01 14:31:39,309 - INFO - Epoch [17/100] train_loss: 800.9841, val_loss: 884.6418, lr: 0.001000, 137.25s
+2024-06-01 14:31:39,321 - INFO - Saved model at 17
+2024-06-01 14:31:39,321 - INFO - Val loss decrease from 920.4939 to 884.6418, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch17.tar
+2024-06-01 14:33:48,212 - INFO - epoch complete!
+2024-06-01 14:33:48,213 - INFO - evaluating now!
+2024-06-01 14:34:02,452 - INFO - Epoch [18/100] train_loss: 767.8623, val_loss: 852.0276, lr: 0.001000, 143.13s
+2024-06-01 14:34:02,466 - INFO - Saved model at 18
+2024-06-01 14:34:02,466 - INFO - Val loss decrease from 884.6418 to 852.0276, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch18.tar
+2024-06-01 14:36:13,136 - INFO - epoch complete!
+2024-06-01 14:36:13,137 - INFO - evaluating now!
+2024-06-01 14:36:27,429 - INFO - Epoch [19/100] train_loss: 737.7374, val_loss: 822.5588, lr: 0.001000, 144.96s
+2024-06-01 14:36:27,442 - INFO - Saved model at 19
+2024-06-01 14:36:27,442 - INFO - Val loss decrease from 852.0276 to 822.5588, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch19.tar
+2024-06-01 14:38:47,060 - INFO - epoch complete!
+2024-06-01 14:38:47,061 - INFO - evaluating now!
+2024-06-01 14:39:03,011 - INFO - Epoch [20/100] train_loss: 710.4870, val_loss: 795.8384, lr: 0.001000, 155.57s
+2024-06-01 14:39:03,025 - INFO - Saved model at 20
+2024-06-01 14:39:03,025 - INFO - Val loss decrease from 822.5588 to 795.8384, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch20.tar
+2024-06-01 14:41:46,228 - INFO - epoch complete!
+2024-06-01 14:41:46,228 - INFO - evaluating now!
+2024-06-01 14:42:02,123 - INFO - Epoch [21/100] train_loss: 689.5669, val_loss: 815.9556, lr: 0.001000, 179.10s
+2024-06-01 14:44:28,450 - INFO - epoch complete!
+2024-06-01 14:44:28,451 - INFO - evaluating now!
+2024-06-01 14:44:42,512 - INFO - Epoch [22/100] train_loss: 1447.5763, val_loss: 2955.2372, lr: 0.001000, 160.39s
+2024-06-01 14:46:44,847 - INFO - epoch complete!
+2024-06-01 14:46:44,847 - INFO - evaluating now!
+2024-06-01 14:46:58,830 - INFO - Epoch [23/100] train_loss: 2350.3943, val_loss: 2202.2862, lr: 0.001000, 136.32s
+2024-06-01 14:49:00,837 - INFO - epoch complete!
+2024-06-01 14:49:00,838 - INFO - evaluating now!
+2024-06-01 14:49:14,705 - INFO - Epoch [24/100] train_loss: 1851.8893, val_loss: 1797.4378, lr: 0.001000, 135.87s
+2024-06-01 14:51:17,372 - INFO - epoch complete!
+2024-06-01 14:51:17,373 - INFO - evaluating now!
+2024-06-01 14:51:31,170 - INFO - Epoch [25/100] train_loss: 1533.7555, val_loss: 1527.3031, lr: 0.001000, 136.46s
+2024-06-01 14:53:36,652 - INFO - epoch complete!
+2024-06-01 14:53:36,652 - INFO - evaluating now!
+2024-06-01 14:53:51,667 - INFO - Epoch [26/100] train_loss: 1311.1256, val_loss: 1330.8363, lr: 0.001000, 140.50s
+2024-06-01 14:55:54,137 - INFO - epoch complete!
+2024-06-01 14:55:54,137 - INFO - evaluating now!
+2024-06-01 14:56:07,940 - INFO - Epoch [27/100] train_loss: 1145.0773, val_loss: 1181.2129, lr: 0.001000, 136.27s
+2024-06-01 14:58:10,087 - INFO - epoch complete!
+2024-06-01 14:58:10,088 - INFO - evaluating now!
+2024-06-01 14:58:24,263 - INFO - Epoch [28/100] train_loss: 1016.9535, val_loss: 1064.2820, lr: 0.001000, 136.32s
+2024-06-01 15:00:26,976 - INFO - epoch complete!
+2024-06-01 15:00:26,976 - INFO - evaluating now!
+2024-06-01 15:00:41,072 - INFO - Epoch [29/100] train_loss: 915.9180, val_loss: 972.2315, lr: 0.001000, 136.81s
+2024-06-01 15:02:43,468 - INFO - epoch complete!
+2024-06-01 15:02:43,468 - INFO - evaluating now!
+2024-06-01 15:02:57,035 - INFO - Epoch [30/100] train_loss: 835.4805, val_loss: 898.5142, lr: 0.001000, 135.96s
+2024-06-01 15:04:58,765 - INFO - epoch complete!
+2024-06-01 15:04:58,766 - INFO - evaluating now!
+2024-06-01 15:05:12,767 - INFO - Epoch [31/100] train_loss: 770.9202, val_loss: 839.0963, lr: 0.001000, 135.73s
+2024-06-01 15:07:14,689 - INFO - epoch complete!
+2024-06-01 15:07:14,689 - INFO - evaluating now!
+2024-06-01 15:07:28,239 - INFO - Epoch [32/100] train_loss: 718.7990, val_loss: 791.4223, lr: 0.001000, 135.47s
+2024-06-01 15:07:28,252 - INFO - Saved model at 32
+2024-06-01 15:07:28,252 - INFO - Val loss decrease from 795.8384 to 791.4223, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch32.tar
+2024-06-01 15:09:29,788 - INFO - epoch complete!
+2024-06-01 15:09:29,789 - INFO - evaluating now!
+2024-06-01 15:09:43,558 - INFO - Epoch [33/100] train_loss: 676.7290, val_loss: 752.9587, lr: 0.001000, 135.31s
+2024-06-01 15:09:43,571 - INFO - Saved model at 33
+2024-06-01 15:09:43,571 - INFO - Val loss decrease from 791.4223 to 752.9587, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch33.tar
+2024-06-01 15:11:45,592 - INFO - epoch complete!
+2024-06-01 15:11:45,593 - INFO - evaluating now!
+2024-06-01 15:11:59,625 - INFO - Epoch [34/100] train_loss: 642.6987, val_loss: 722.0660, lr: 0.001000, 136.05s
+2024-06-01 15:11:59,638 - INFO - Saved model at 34
+2024-06-01 15:11:59,638 - INFO - Val loss decrease from 752.9587 to 722.0660, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch34.tar
+2024-06-01 15:14:02,294 - INFO - epoch complete!
+2024-06-01 15:14:02,294 - INFO - evaluating now!
+2024-06-01 15:14:16,430 - INFO - Epoch [35/100] train_loss: 615.2205, val_loss: 697.2751, lr: 0.001000, 136.79s
+2024-06-01 15:14:16,443 - INFO - Saved model at 35
+2024-06-01 15:14:16,443 - INFO - Val loss decrease from 722.0660 to 697.2751, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch35.tar
+2024-06-01 15:16:19,214 - INFO - epoch complete!
+2024-06-01 15:16:19,215 - INFO - evaluating now!
+2024-06-01 15:16:32,959 - INFO - Epoch [36/100] train_loss: 593.0798, val_loss: 677.3924, lr: 0.001000, 136.52s
+2024-06-01 15:16:32,972 - INFO - Saved model at 36
+2024-06-01 15:16:32,972 - INFO - Val loss decrease from 697.2751 to 677.3924, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch36.tar
+2024-06-01 15:18:35,357 - INFO - epoch complete!
+2024-06-01 15:18:35,357 - INFO - evaluating now!
+2024-06-01 15:18:49,483 - INFO - Epoch [37/100] train_loss: 575.2696, val_loss: 661.5210, lr: 0.001000, 136.51s
+2024-06-01 15:18:49,496 - INFO - Saved model at 37
+2024-06-01 15:18:49,496 - INFO - Val loss decrease from 677.3924 to 661.5210, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch37.tar
+2024-06-01 15:20:51,821 - INFO - epoch complete!
+2024-06-01 15:20:51,823 - INFO - evaluating now!
+2024-06-01 15:21:05,733 - INFO - Epoch [38/100] train_loss: 561.0125, val_loss: 648.8532, lr: 0.001000, 136.24s
+2024-06-01 15:21:05,746 - INFO - Saved model at 38
+2024-06-01 15:21:05,747 - INFO - Val loss decrease from 661.5210 to 648.8532, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch38.tar
+2024-06-01 15:23:08,547 - INFO - epoch complete!
+2024-06-01 15:23:08,547 - INFO - evaluating now!
+2024-06-01 15:23:22,494 - INFO - Epoch [39/100] train_loss: 549.6297, val_loss: 638.8650, lr: 0.001000, 136.75s
+2024-06-01 15:23:22,507 - INFO - Saved model at 39
+2024-06-01 15:23:22,507 - INFO - Val loss decrease from 648.8532 to 638.8650, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch39.tar
+2024-06-01 15:25:25,460 - INFO - epoch complete!
+2024-06-01 15:25:25,460 - INFO - evaluating now!
+2024-06-01 15:25:39,544 - INFO - Epoch [40/100] train_loss: 540.5780, val_loss: 631.0981, lr: 0.001000, 137.04s
+2024-06-01 15:25:39,558 - INFO - Saved model at 40
+2024-06-01 15:25:39,558 - INFO - Val loss decrease from 638.8650 to 631.0981, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch40.tar
+2024-06-01 15:27:41,443 - INFO - epoch complete!
+2024-06-01 15:27:41,444 - INFO - evaluating now!
+2024-06-01 15:27:55,347 - INFO - Epoch [41/100] train_loss: 533.4596, val_loss: 624.9302, lr: 0.001000, 135.79s
+2024-06-01 15:27:55,360 - INFO - Saved model at 41
+2024-06-01 15:27:55,360 - INFO - Val loss decrease from 631.0981 to 624.9302, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch41.tar
+2024-06-01 15:29:57,096 - INFO - epoch complete!
+2024-06-01 15:29:57,097 - INFO - evaluating now!
+2024-06-01 15:30:10,887 - INFO - Epoch [42/100] train_loss: 527.8428, val_loss: 620.1638, lr: 0.001000, 135.53s
+2024-06-01 15:30:10,901 - INFO - Saved model at 42
+2024-06-01 15:30:10,901 - INFO - Val loss decrease from 624.9302 to 620.1638, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch42.tar
+2024-06-01 15:32:13,676 - INFO - epoch complete!
+2024-06-01 15:32:13,676 - INFO - evaluating now!
+2024-06-01 15:32:27,913 - INFO - Epoch [43/100] train_loss: 523.4462, val_loss: 616.5535, lr: 0.001000, 137.01s
+2024-06-01 15:32:27,926 - INFO - Saved model at 43
+2024-06-01 15:32:27,926 - INFO - Val loss decrease from 620.1638 to 616.5535, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch43.tar
+2024-06-01 15:34:30,526 - INFO - epoch complete!
+2024-06-01 15:34:30,527 - INFO - evaluating now!
+2024-06-01 15:34:44,492 - INFO - Epoch [44/100] train_loss: 520.0372, val_loss: 613.7795, lr: 0.001000, 136.57s
+2024-06-01 15:34:44,505 - INFO - Saved model at 44
+2024-06-01 15:34:44,506 - INFO - Val loss decrease from 616.5535 to 613.7795, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch44.tar
+2024-06-01 15:36:46,900 - INFO - epoch complete!
+2024-06-01 15:36:46,901 - INFO - evaluating now!
+2024-06-01 15:37:00,654 - INFO - Epoch [45/100] train_loss: 517.4116, val_loss: 611.6580, lr: 0.001000, 136.15s
+2024-06-01 15:37:00,667 - INFO - Saved model at 45
+2024-06-01 15:37:00,667 - INFO - Val loss decrease from 613.7795 to 611.6580, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch45.tar
+2024-06-01 15:39:03,271 - INFO - epoch complete!
+2024-06-01 15:39:03,273 - INFO - evaluating now!
+2024-06-01 15:39:17,287 - INFO - Epoch [46/100] train_loss: 515.3858, val_loss: 610.0969, lr: 0.001000, 136.62s
+2024-06-01 15:39:17,300 - INFO - Saved model at 46
+2024-06-01 15:39:17,301 - INFO - Val loss decrease from 611.6580 to 610.0969, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch46.tar
+2024-06-01 15:41:18,904 - INFO - epoch complete!
+2024-06-01 15:41:18,905 - INFO - evaluating now!
+2024-06-01 15:41:32,803 - INFO - Epoch [47/100] train_loss: 513.8602, val_loss: 608.9142, lr: 0.001000, 135.50s
+2024-06-01 15:41:32,816 - INFO - Saved model at 47
+2024-06-01 15:41:32,816 - INFO - Val loss decrease from 610.0969 to 608.9142, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch47.tar
+2024-06-01 15:43:36,295 - INFO - epoch complete!
+2024-06-01 15:43:36,296 - INFO - evaluating now!
+2024-06-01 15:43:50,055 - INFO - Epoch [48/100] train_loss: 512.6857, val_loss: 608.0972, lr: 0.001000, 137.24s
+2024-06-01 15:43:50,068 - INFO - Saved model at 48
+2024-06-01 15:43:50,068 - INFO - Val loss decrease from 608.9142 to 608.0972, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch48.tar
+2024-06-01 15:45:52,842 - INFO - epoch complete!
+2024-06-01 15:45:52,843 - INFO - evaluating now!
+2024-06-01 15:46:06,985 - INFO - Epoch [49/100] train_loss: 511.8181, val_loss: 607.4941, lr: 0.001000, 136.92s
+2024-06-01 15:46:06,998 - INFO - Saved model at 49
+2024-06-01 15:46:06,998 - INFO - Val loss decrease from 608.0972 to 607.4941, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch49.tar
+2024-06-01 15:48:09,461 - INFO - epoch complete!
+2024-06-01 15:48:09,462 - INFO - evaluating now!
+2024-06-01 15:48:22,814 - INFO - Epoch [50/100] train_loss: 511.1701, val_loss: 607.0591, lr: 0.001000, 135.82s
+2024-06-01 15:48:22,828 - INFO - Saved model at 50
+2024-06-01 15:48:22,828 - INFO - Val loss decrease from 607.4941 to 607.0591, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch50.tar
+2024-06-01 15:50:24,197 - INFO - epoch complete!
+2024-06-01 15:50:24,199 - INFO - evaluating now!
+2024-06-01 15:50:38,000 - INFO - Epoch [51/100] train_loss: 510.6847, val_loss: 606.7689, lr: 0.001000, 135.17s
+2024-06-01 15:50:38,013 - INFO - Saved model at 51
+2024-06-01 15:50:38,013 - INFO - Val loss decrease from 607.0591 to 606.7689, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch51.tar
+2024-06-01 15:52:38,936 - INFO - epoch complete!
+2024-06-01 15:52:38,937 - INFO - evaluating now!
+2024-06-01 15:52:52,829 - INFO - Epoch [52/100] train_loss: 510.3352, val_loss: 606.5678, lr: 0.001000, 134.82s
+2024-06-01 15:52:52,842 - INFO - Saved model at 52
+2024-06-01 15:52:52,842 - INFO - Val loss decrease from 606.7689 to 606.5678, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch52.tar
+2024-06-01 15:54:54,145 - INFO - epoch complete!
+2024-06-01 15:54:54,146 - INFO - evaluating now!
+2024-06-01 15:55:07,611 - INFO - Epoch [53/100] train_loss: 510.0777, val_loss: 606.4411, lr: 0.001000, 134.77s
+2024-06-01 15:55:07,625 - INFO - Saved model at 53
+2024-06-01 15:55:07,625 - INFO - Val loss decrease from 606.5678 to 606.4411, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch53.tar
+2024-06-01 15:57:08,547 - INFO - epoch complete!
+2024-06-01 15:57:08,548 - INFO - evaluating now!
+2024-06-01 15:57:22,229 - INFO - Epoch [54/100] train_loss: 509.8930, val_loss: 606.3581, lr: 0.001000, 134.60s
+2024-06-01 15:57:22,244 - INFO - Saved model at 54
+2024-06-01 15:57:22,244 - INFO - Val loss decrease from 606.4411 to 606.3581, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch54.tar
+2024-06-01 15:59:24,154 - INFO - epoch complete!
+2024-06-01 15:59:24,155 - INFO - evaluating now!
+2024-06-01 15:59:38,013 - INFO - Epoch [55/100] train_loss: 509.7592, val_loss: 606.3112, lr: 0.001000, 135.77s
+2024-06-01 15:59:38,026 - INFO - Saved model at 55
+2024-06-01 15:59:38,027 - INFO - Val loss decrease from 606.3581 to 606.3112, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch55.tar
+2024-06-01 16:01:40,613 - INFO - epoch complete!
+2024-06-01 16:01:40,614 - INFO - evaluating now!
+2024-06-01 16:01:54,853 - INFO - Epoch [56/100] train_loss: 509.6661, val_loss: 606.2871, lr: 0.001000, 136.83s
+2024-06-01 16:01:54,868 - INFO - Saved model at 56
+2024-06-01 16:01:54,868 - INFO - Val loss decrease from 606.3112 to 606.2871, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch56.tar
+2024-06-01 16:03:57,593 - INFO - epoch complete!
+2024-06-01 16:03:57,593 - INFO - evaluating now!
+2024-06-01 16:04:11,572 - INFO - Epoch [57/100] train_loss: 509.5971, val_loss: 606.2747, lr: 0.001000, 136.70s
+2024-06-01 16:04:11,586 - INFO - Saved model at 57
+2024-06-01 16:04:11,586 - INFO - Val loss decrease from 606.2871 to 606.2747, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch57.tar
+2024-06-01 16:06:13,957 - INFO - epoch complete!
+2024-06-01 16:06:13,957 - INFO - evaluating now!
+2024-06-01 16:06:27,887 - INFO - Epoch [58/100] train_loss: 509.5494, val_loss: 606.2727, lr: 0.001000, 136.30s
+2024-06-01 16:06:27,900 - INFO - Saved model at 58
+2024-06-01 16:06:27,900 - INFO - Val loss decrease from 606.2747 to 606.2727, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch58.tar
+2024-06-01 16:08:30,985 - INFO - epoch complete!
+2024-06-01 16:08:30,986 - INFO - evaluating now!
+2024-06-01 16:08:44,907 - INFO - Epoch [59/100] train_loss: 509.5169, val_loss: 606.2816, lr: 0.001000, 137.01s
+2024-06-01 16:10:47,587 - INFO - epoch complete!
+2024-06-01 16:10:47,588 - INFO - evaluating now!
+2024-06-01 16:11:01,371 - INFO - Epoch [60/100] train_loss: 509.4918, val_loss: 606.2857, lr: 0.001000, 136.46s
+2024-06-01 16:13:04,051 - INFO - epoch complete!
+2024-06-01 16:13:04,051 - INFO - evaluating now!
+2024-06-01 16:13:18,285 - INFO - Epoch [61/100] train_loss: 509.4756, val_loss: 606.2902, lr: 0.001000, 136.91s
+2024-06-01 16:15:20,157 - INFO - epoch complete!
+2024-06-01 16:15:20,158 - INFO - evaluating now!
+2024-06-01 16:15:33,744 - INFO - Epoch [62/100] train_loss: 509.4630, val_loss: 606.2962, lr: 0.001000, 135.46s
+2024-06-01 16:17:36,332 - INFO - epoch complete!
+2024-06-01 16:17:36,333 - INFO - evaluating now!
+2024-06-01 16:17:50,181 - INFO - Epoch [63/100] train_loss: 509.4524, val_loss: 606.3073, lr: 0.001000, 136.44s
+2024-06-01 16:19:52,838 - INFO - epoch complete!
+2024-06-01 16:19:52,839 - INFO - evaluating now!
+2024-06-01 16:20:06,349 - INFO - Epoch [64/100] train_loss: 509.4456, val_loss: 606.3113, lr: 0.001000, 136.17s
+2024-06-01 16:22:08,323 - INFO - epoch complete!
+2024-06-01 16:22:08,324 - INFO - evaluating now!
+2024-06-01 16:22:22,100 - INFO - Epoch [65/100] train_loss: 509.4392, val_loss: 606.3175, lr: 0.001000, 135.75s
+2024-06-01 16:24:23,829 - INFO - epoch complete!
+2024-06-01 16:24:23,830 - INFO - evaluating now!
+2024-06-01 16:24:37,468 - INFO - Epoch [66/100] train_loss: 509.4341, val_loss: 606.3133, lr: 0.001000, 135.37s
+2024-06-01 16:26:39,533 - INFO - epoch complete!
+2024-06-01 16:26:39,534 - INFO - evaluating now!
+2024-06-01 16:26:53,688 - INFO - Epoch [67/100] train_loss: 509.4286, val_loss: 606.3146, lr: 0.001000, 136.22s
+2024-06-01 16:28:56,560 - INFO - epoch complete!
+2024-06-01 16:28:56,560 - INFO - evaluating now!
+2024-06-01 16:29:10,640 - INFO - Epoch [68/100] train_loss: 509.4266, val_loss: 606.3090, lr: 0.001000, 136.95s
+2024-06-01 16:31:12,943 - INFO - epoch complete!
+2024-06-01 16:31:12,943 - INFO - evaluating now!
+2024-06-01 16:31:26,765 - INFO - Epoch [69/100] train_loss: 509.4200, val_loss: 606.3145, lr: 0.001000, 136.12s
+2024-06-01 16:33:28,127 - INFO - epoch complete!
+2024-06-01 16:33:28,128 - INFO - evaluating now!
+2024-06-01 16:33:41,715 - INFO - Epoch [70/100] train_loss: 509.4167, val_loss: 606.3151, lr: 0.001000, 134.95s
+2024-06-01 16:35:43,882 - INFO - epoch complete!
+2024-06-01 16:35:43,883 - INFO - evaluating now!
+2024-06-01 16:35:57,866 - INFO - Epoch [71/100] train_loss: 509.4132, val_loss: 606.3187, lr: 0.001000, 136.15s
+2024-06-01 16:38:00,112 - INFO - epoch complete!
+2024-06-01 16:38:00,112 - INFO - evaluating now!
+2024-06-01 16:38:13,750 - INFO - Epoch [72/100] train_loss: 509.4102, val_loss: 606.3062, lr: 0.001000, 135.88s
+2024-06-01 16:40:15,257 - INFO - epoch complete!
+2024-06-01 16:40:15,257 - INFO - evaluating now!
+2024-06-01 16:40:28,925 - INFO - Epoch [73/100] train_loss: 509.4064, val_loss: 606.3164, lr: 0.001000, 135.18s
+2024-06-01 16:42:31,283 - INFO - epoch complete!
+2024-06-01 16:42:31,284 - INFO - evaluating now!
+2024-06-01 16:42:44,688 - INFO - Epoch [74/100] train_loss: 509.4008, val_loss: 606.3051, lr: 0.001000, 135.76s
+2024-06-01 16:44:47,320 - INFO - epoch complete!
+2024-06-01 16:44:47,320 - INFO - evaluating now!
+2024-06-01 16:45:01,356 - INFO - Epoch [75/100] train_loss: 509.3983, val_loss: 606.2919, lr: 0.001000, 136.67s
+2024-06-01 16:47:03,889 - INFO - epoch complete!
+2024-06-01 16:47:03,890 - INFO - evaluating now!
+2024-06-01 16:47:17,921 - INFO - Epoch [76/100] train_loss: 509.3936, val_loss: 606.2894, lr: 0.001000, 136.57s
+2024-06-01 16:49:20,642 - INFO - epoch complete!
+2024-06-01 16:49:20,642 - INFO - evaluating now!
+2024-06-01 16:49:34,593 - INFO - Epoch [77/100] train_loss: 509.3897, val_loss: 606.2825, lr: 0.001000, 136.67s
+2024-06-01 16:51:36,609 - INFO - epoch complete!
+2024-06-01 16:51:36,609 - INFO - evaluating now!
+2024-06-01 16:51:49,982 - INFO - Epoch [78/100] train_loss: 509.3871, val_loss: 606.2986, lr: 0.001000, 135.39s
+2024-06-01 16:53:52,477 - INFO - epoch complete!
+2024-06-01 16:53:52,478 - INFO - evaluating now!
+2024-06-01 16:54:06,361 - INFO - Epoch [79/100] train_loss: 509.3829, val_loss: 606.2929, lr: 0.001000, 136.38s
+2024-06-01 16:56:09,430 - INFO - epoch complete!
+2024-06-01 16:56:09,431 - INFO - evaluating now!
+2024-06-01 16:56:23,671 - INFO - Epoch [80/100] train_loss: 509.3786, val_loss: 606.2741, lr: 0.001000, 137.31s
+2024-06-01 16:58:25,938 - INFO - epoch complete!
+2024-06-01 16:58:25,938 - INFO - evaluating now!
+2024-06-01 16:58:40,080 - INFO - Epoch [81/100] train_loss: 509.3747, val_loss: 606.2743, lr: 0.001000, 136.41s
+2024-06-01 17:00:42,242 - INFO - epoch complete!
+2024-06-01 17:00:42,242 - INFO - evaluating now!
+2024-06-01 17:00:56,042 - INFO - Epoch [82/100] train_loss: 509.3704, val_loss: 606.2668, lr: 0.001000, 135.96s
+2024-06-01 17:00:56,055 - INFO - Saved model at 82
+2024-06-01 17:00:56,055 - INFO - Val loss decrease from 606.2727 to 606.2668, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch82.tar
+2024-06-01 17:02:58,448 - INFO - epoch complete!
+2024-06-01 17:02:58,449 - INFO - evaluating now!
+2024-06-01 17:03:12,460 - INFO - Epoch [83/100] train_loss: 509.3685, val_loss: 606.2712, lr: 0.001000, 136.40s
+2024-06-01 17:05:14,478 - INFO - epoch complete!
+2024-06-01 17:05:14,479 - INFO - evaluating now!
+2024-06-01 17:05:28,008 - INFO - Epoch [84/100] train_loss: 509.3632, val_loss: 606.2609, lr: 0.001000, 135.55s
+2024-06-01 17:05:28,022 - INFO - Saved model at 84
+2024-06-01 17:05:28,022 - INFO - Val loss decrease from 606.2668 to 606.2609, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch84.tar
+2024-06-01 17:07:30,235 - INFO - epoch complete!
+2024-06-01 17:07:30,236 - INFO - evaluating now!
+2024-06-01 17:07:44,107 - INFO - Epoch [85/100] train_loss: 509.3616, val_loss: 606.2600, lr: 0.001000, 136.08s
+2024-06-01 17:07:44,120 - INFO - Saved model at 85
+2024-06-01 17:07:44,121 - INFO - Val loss decrease from 606.2609 to 606.2600, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch85.tar
+2024-06-01 17:09:46,162 - INFO - epoch complete!
+2024-06-01 17:09:46,163 - INFO - evaluating now!
+2024-06-01 17:09:59,921 - INFO - Epoch [86/100] train_loss: 509.3592, val_loss: 606.2580, lr: 0.001000, 135.80s
+2024-06-01 17:09:59,934 - INFO - Saved model at 86
+2024-06-01 17:09:59,934 - INFO - Val loss decrease from 606.2600 to 606.2580, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch86.tar
+2024-06-01 17:12:02,012 - INFO - epoch complete!
+2024-06-01 17:12:02,013 - INFO - evaluating now!
+2024-06-01 17:12:16,255 - INFO - Epoch [87/100] train_loss: 509.3564, val_loss: 606.2550, lr: 0.001000, 136.32s
+2024-06-01 17:12:16,268 - INFO - Saved model at 87
+2024-06-01 17:12:16,268 - INFO - Val loss decrease from 606.2580 to 606.2550, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch87.tar
+2024-06-01 17:14:18,736 - INFO - epoch complete!
+2024-06-01 17:14:18,737 - INFO - evaluating now!
+2024-06-01 17:14:32,860 - INFO - Epoch [88/100] train_loss: 509.3540, val_loss: 606.2434, lr: 0.001000, 136.59s
+2024-06-01 17:14:32,874 - INFO - Saved model at 88
+2024-06-01 17:14:32,874 - INFO - Val loss decrease from 606.2550 to 606.2434, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch88.tar
+2024-06-01 17:16:35,609 - INFO - epoch complete!
+2024-06-01 17:16:35,610 - INFO - evaluating now!
+2024-06-01 17:16:49,361 - INFO - Epoch [89/100] train_loss: 509.3488, val_loss: 606.2473, lr: 0.001000, 136.49s
+2024-06-01 17:18:50,907 - INFO - epoch complete!
+2024-06-01 17:18:50,907 - INFO - evaluating now!
+2024-06-01 17:19:04,616 - INFO - Epoch [90/100] train_loss: 509.3437, val_loss: 606.2479, lr: 0.001000, 135.26s
+2024-06-01 17:21:07,012 - INFO - epoch complete!
+2024-06-01 17:21:07,013 - INFO - evaluating now!
+2024-06-01 17:21:20,713 - INFO - Epoch [91/100] train_loss: 509.3396, val_loss: 606.2305, lr: 0.001000, 136.10s
+2024-06-01 17:21:20,727 - INFO - Saved model at 91
+2024-06-01 17:21:20,727 - INFO - Val loss decrease from 606.2434 to 606.2305, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch91.tar
+2024-06-01 17:23:22,763 - INFO - epoch complete!
+2024-06-01 17:23:22,764 - INFO - evaluating now!
+2024-06-01 17:23:36,500 - INFO - Epoch [92/100] train_loss: 509.3394, val_loss: 606.2282, lr: 0.001000, 135.77s
+2024-06-01 17:23:36,513 - INFO - Saved model at 92
+2024-06-01 17:23:36,513 - INFO - Val loss decrease from 606.2305 to 606.2282, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch92.tar
+2024-06-01 17:25:38,318 - INFO - epoch complete!
+2024-06-01 17:25:38,318 - INFO - evaluating now!
+2024-06-01 17:25:52,080 - INFO - Epoch [93/100] train_loss: 509.3345, val_loss: 606.2306, lr: 0.001000, 135.57s
+2024-06-01 17:27:54,328 - INFO - epoch complete!
+2024-06-01 17:27:54,329 - INFO - evaluating now!
+2024-06-01 17:28:08,565 - INFO - Epoch [94/100] train_loss: 509.3330, val_loss: 606.2165, lr: 0.001000, 136.48s
+2024-06-01 17:28:08,579 - INFO - Saved model at 94
+2024-06-01 17:28:08,579 - INFO - Val loss decrease from 606.2282 to 606.2165, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch94.tar
+2024-06-01 17:30:11,746 - INFO - epoch complete!
+2024-06-01 17:30:11,747 - INFO - evaluating now!
+2024-06-01 17:30:26,033 - INFO - Epoch [95/100] train_loss: 509.3283, val_loss: 606.2347, lr: 0.001000, 137.45s
+2024-06-01 17:32:29,218 - INFO - epoch complete!
+2024-06-01 17:32:29,219 - INFO - evaluating now!
+2024-06-01 17:32:42,956 - INFO - Epoch [96/100] train_loss: 509.3292, val_loss: 606.2324, lr: 0.001000, 136.92s
+2024-06-01 17:34:46,262 - INFO - epoch complete!
+2024-06-01 17:34:46,262 - INFO - evaluating now!
+2024-06-01 17:35:00,219 - INFO - Epoch [97/100] train_loss: 509.3232, val_loss: 606.2184, lr: 0.001000, 137.26s
+2024-06-01 17:37:03,009 - INFO - epoch complete!
+2024-06-01 17:37:03,010 - INFO - evaluating now!
+2024-06-01 17:37:16,718 - INFO - Epoch [98/100] train_loss: 509.3216, val_loss: 606.2066, lr: 0.001000, 136.50s
+2024-06-01 17:37:16,731 - INFO - Saved model at 98
+2024-06-01 17:37:16,732 - INFO - Val loss decrease from 606.2165 to 606.2066, saving to ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD_epoch98.tar
+2024-06-01 17:39:19,414 - INFO - epoch complete!
+2024-06-01 17:39:19,414 - INFO - evaluating now!
+2024-06-01 17:39:33,235 - INFO - Epoch [99/100] train_loss: 509.3198, val_loss: 606.2169, lr: 0.001000, 136.50s
+2024-06-01 17:39:33,235 - INFO - Trained totally 100 epochs, average train time is 123.618s, average eval time is 13.941s
+2024-06-01 17:39:33,244 - INFO - Loaded model at 98
+2024-06-01 17:39:33,245 - INFO - Saved model at ./libcity/cache/70491/model_cache/GEML_NYCTAXI_OD.m
+2024-06-01 17:39:33,257 - INFO - Start evaluating ...
+2024-06-01 17:40:32,467 - INFO - Note that you select the single mode to evaluate!
+2024-06-01 17:40:32,472 - INFO - Evaluate result is saved at ./libcity/cache/70491/evaluate_cache/2024_06_01_17_40_32_GEML_NYCTAXI_OD.csv
+2024-06-01 17:40:32,482 - INFO - 
+        MAE  MAPE       MSE  ...  masked_RMSE        R2      EVAR
+1  0.246421   inf  0.387882  ...     3.559142 -0.305252 -0.202152
+2  0.243623   inf  0.386849  ...     3.550809 -0.306505 -0.206286
+3  0.243725   inf  0.387105  ...     3.547629 -0.306375 -0.206366
+4  0.243907   inf  0.385902  ...     3.540152 -0.309111 -0.208236
+5  0.244224   inf  0.389020  ...     3.551168 -0.303808 -0.204822
+
+[5 rows x 10 columns]

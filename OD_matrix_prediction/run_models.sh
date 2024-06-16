@@ -1,0 +1,1 @@
+nohup python run_model.py --task traffic_state_pred --model GEML --dataset NYCTAXI_OD --train_rate 0.8 --eval_rate 0.1 --gpu_id 1 --max_epoch 100 --learning_rate 0.0001 > train_test.log 2>&1 &

@@ -1,0 +1,102 @@
+2024-05-31 21:12:36,492 - INFO - Log directory: ./libcity/log
+2024-05-31 21:12:36,492 - INFO - Begin pipeline, task=traffic_state_pred, model_name=GEML, dataset_name=NYCTAXI_OD, exp_id=49535
+2024-05-31 21:12:36,493 - INFO - {'task': 'traffic_state_pred', 'model': 'GEML', 'dataset': 'NYCTAXI_OD', 'saved_model': True, 'train': True, 'seed': 0, 'gpu_id': 1, 'train_rate': 0.8, 'eval_rate': 0.1, 'max_epoch': 10, 'dataset_class': 'TrafficStateOdDataset', 'executor': 'GEMLExecutor', 'evaluator': 'TrafficStateEvaluator', 'embed_dim': 32, 'p_interval': 1, 'loss_p0': 0.5, 'loss_p1': 0.25, 'loss_p2': 0.25, 'scaler': 'minmax01', 'load_external': False, 'normal_external': False, 'ext_scaler': 'none', 'add_time_in_day': True, 'add_day_in_week': False, 'use_row_column': True, 'learner': 'adam', 'learning_rate': 0.001, 'weight_decay': 1e-06, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_decay': False, 'clip_grad_norm': False, 'use_early_stop': True, 'patience': 50, 'batch_size': 64, 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'input_window': 5, 'output_window': 5, 'gpu': True, 'train_loss': 'none', 'epoch': 0, 'lr_epsilon': 1e-08, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_scheduler': 'multisteplr', 'lr_decay_ratio': 0.1, 'steps': [5, 20, 40, 70], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 10, 'lr_threshold': 0.0001, 'max_grad_norm': 1.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Polygon'], 'Polygon': {}}, 'od': {'including_types': ['state'], 'state': {'origin_id': 'geo_id', 'destination_id': 'geo_id', 'flow': 'num'}}, 'data_col': ['flow'], 'data_files': ['NYCTAXI202310-202403'], 'geo_file': 'NYCTAXI202310-202403', 'rel_file': 'NYCTAXI202310-202403', 'output_dim': 1, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'time_intervals': 3600, 'device': device(type='cuda', index=1), 'exp_id': 49535}
+2024-05-31 21:12:36,523 - INFO - Loaded file NYCTAXI202310-202403.geo, num_nodes=263
+2024-05-31 21:12:36,541 - INFO - set_weight_link_or_dist: dist
+2024-05-31 21:12:36,541 - INFO - init_weight_inf_or_zero: inf
+2024-05-31 21:12:36,661 - INFO - Loaded file NYCTAXI202310-202403.rel, shape=(263, 263)
+2024-05-31 21:12:36,662 - INFO - Start Calculate the weight by Gauss kernel!
+2024-05-31 21:12:36,682 - INFO - set_weight_link_or_dist: dist
+2024-05-31 21:12:36,682 - INFO - init_weight_inf_or_zero: inf
+2024-05-31 21:12:36,799 - INFO - Loaded file NYCTAXI202310-202403.rel, shape=(263, 263)
+2024-05-31 21:12:36,799 - INFO - Start Calculate the weight by Gauss kernel!
+2024-05-31 21:12:36,800 - INFO - Loading ./libcity/cache/dataset_cache/od_based_NYCTAXI_OD_5_5_0.8_0.1_minmax01_64_False_True_False_True.npz
+2024-05-31 21:13:18,810 - INFO - train	x: (3506, 5, 263, 263, 1), y: (3506, 5, 263, 263, 1)
+2024-05-31 21:13:18,810 - INFO - eval	x: (438, 5, 263, 263, 1), y: (438, 5, 263, 263, 1)
+2024-05-31 21:13:18,810 - INFO - test	x: (438, 5, 263, 263, 1), y: (438, 5, 263, 263, 1)
+2024-05-31 21:13:21,747 - INFO - MinMax01Scaler max: 103.0, min: 0.0
+2024-05-31 21:13:21,747 - INFO - NoneScaler
+2024-05-31 21:14:25,199 - INFO - GEML(
+  (GCN_ge): GCN(
+    (gcn): ModuleList(
+      (0-1): 2 x GraphConvolution(
+        (activation): ReLU()
+      )
+    )
+  )
+  (GCN_se): GCN(
+    (gcn): ModuleList(
+      (0-1): 2 x GraphConvolution(
+        (activation): ReLU()
+      )
+    )
+  )
+  (LSTM): SLSTM(
+    (linear): Linear(in_features=640, out_features=128, bias=True)
+    (trans): TransformerEncoder(
+      (layers): ModuleList(
+        (0-1): 2 x EncoderLayer(
+          (self_attn): MultiheadAttention(
+            (q_linear): Linear(in_features=128, out_features=128, bias=True)
+            (k_linear): Linear(in_features=128, out_features=128, bias=True)
+            (v_linear): Linear(in_features=128, out_features=128, bias=True)
+            (out_linear): Linear(in_features=128, out_features=128, bias=True)
+          )
+          (feed_forward): PositionwiseFeedforward(
+            (linear1): Linear(in_features=128, out_features=512, bias=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+            (linear2): Linear(in_features=512, out_features=128, bias=True)
+          )
+          (sublayer): SublayerConnection(
+            (norm): LayerNorm((128,), eps=1e-05, elementwise_affine=True)
+            (dropout): Dropout(p=0.1, inplace=False)
+          )
+        )
+      )
+    )
+    (tanh): Tanh()
+  )
+  (mutiLearning): MutiLearning()
+)
+2024-05-31 21:14:25,199 - INFO - GCN_ge.gcn.0.weight	torch.Size([263, 32])	cuda:1	True
+2024-05-31 21:14:25,199 - INFO - GCN_ge.gcn.1.weight	torch.Size([32, 32])	cuda:1	True
+2024-05-31 21:14:25,199 - INFO - GCN_se.gcn.0.weight	torch.Size([263, 32])	cuda:1	True
+2024-05-31 21:14:25,199 - INFO - GCN_se.gcn.1.weight	torch.Size([32, 32])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.linear.weight	torch.Size([128, 640])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.self_attn.q_linear.weight	torch.Size([128, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.self_attn.q_linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.self_attn.k_linear.weight	torch.Size([128, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.self_attn.k_linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.self_attn.v_linear.weight	torch.Size([128, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.self_attn.v_linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.self_attn.out_linear.weight	torch.Size([128, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.self_attn.out_linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.feed_forward.linear1.weight	torch.Size([512, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.feed_forward.linear1.bias	torch.Size([512])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.feed_forward.linear2.weight	torch.Size([128, 512])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.feed_forward.linear2.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.sublayer.norm.weight	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.0.sublayer.norm.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.self_attn.q_linear.weight	torch.Size([128, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.self_attn.q_linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.self_attn.k_linear.weight	torch.Size([128, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.self_attn.k_linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.self_attn.v_linear.weight	torch.Size([128, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.self_attn.v_linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.self_attn.out_linear.weight	torch.Size([128, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.self_attn.out_linear.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.feed_forward.linear1.weight	torch.Size([512, 128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.feed_forward.linear1.bias	torch.Size([512])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.feed_forward.linear2.weight	torch.Size([128, 512])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.feed_forward.linear2.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,200 - INFO - LSTM.trans.layers.1.sublayer.norm.weight	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,201 - INFO - LSTM.trans.layers.1.sublayer.norm.bias	torch.Size([128])	cuda:1	True
+2024-05-31 21:14:25,201 - INFO - mutiLearning.transition	torch.Size([64, 64])	cuda:1	True
+2024-05-31 21:14:25,201 - INFO - mutiLearning.project_in	torch.Size([64, 1])	cuda:1	True
+2024-05-31 21:14:25,201 - INFO - mutiLearning.project_out	torch.Size([64, 1])	cuda:1	True
+2024-05-31 21:14:25,201 - INFO - Total parameter numbers: 501184
+2024-05-31 21:14:25,201 - INFO - You select `adam` optimizer.
+2024-05-31 21:14:25,201 - WARNING - Received none train loss func and will use the loss func defined in the model.
+2024-05-31 21:14:25,201 - INFO - Start training ...
+2024-05-31 21:14:25,201 - INFO - num_batches:55

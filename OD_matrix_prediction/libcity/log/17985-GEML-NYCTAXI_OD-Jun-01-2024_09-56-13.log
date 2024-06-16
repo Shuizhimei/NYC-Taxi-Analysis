@@ -1,0 +1,106 @@
+2024-06-01 09:56:13,774 - INFO - Log directory: ./libcity/log
+2024-06-01 09:56:13,774 - INFO - Begin pipeline, task=traffic_state_pred, model_name=GEML, dataset_name=NYCTAXI_OD, exp_id=17985
+2024-06-01 09:56:13,774 - INFO - {'task': 'traffic_state_pred', 'model': 'GEML', 'dataset': 'NYCTAXI_OD', 'saved_model': True, 'train': True, 'seed': 0, 'gpu_id': 1, 'train_rate': 0.8, 'eval_rate': 0.1, 'max_epoch': 50, 'dataset_class': 'TrafficStateOdDataset', 'executor': 'GEMLExecutor', 'evaluator': 'TrafficStateEvaluator', 'embed_dim': 32, 'p_interval': 1, 'loss_p0': 0.5, 'loss_p1': 0.25, 'loss_p2': 0.25, 'scaler': 'minmax01', 'load_external': False, 'normal_external': False, 'ext_scaler': 'none', 'add_time_in_day': True, 'add_day_in_week': False, 'use_row_column': True, 'learner': 'adam', 'learning_rate': 0.001, 'weight_decay': 1e-06, 'lr_beta1': 0.9, 'lr_beta2': 0.999, 'lr_decay': False, 'clip_grad_norm': False, 'use_early_stop': True, 'patience': 50, 'batch_size': 64, 'cache_dataset': True, 'num_workers': 0, 'pad_with_last_sample': True, 'input_window': 5, 'output_window': 5, 'gpu': True, 'train_loss': 'none', 'epoch': 0, 'lr_epsilon': 1e-08, 'lr_alpha': 0.99, 'lr_momentum': 0, 'lr_scheduler': 'multisteplr', 'lr_decay_ratio': 0.1, 'steps': [5, 20, 40, 70], 'step_size': 10, 'lr_T_max': 30, 'lr_eta_min': 0, 'lr_patience': 10, 'lr_threshold': 0.0001, 'max_grad_norm': 1.0, 'log_level': 'INFO', 'log_every': 1, 'load_best_epoch': True, 'hyper_tune': False, 'metrics': ['MAE', 'MAPE', 'MSE', 'RMSE', 'masked_MAE', 'masked_MAPE', 'masked_MSE', 'masked_RMSE', 'R2', 'EVAR'], 'evaluator_mode': 'single', 'save_mode': ['csv'], 'geo': {'including_types': ['Polygon'], 'Polygon': {}}, 'od': {'including_types': ['state'], 'state': {'origin_id': 'geo_id', 'destination_id': 'geo_id', 'flow': 'num'}}, 'data_col': ['flow'], 'data_files': ['NYCTAXI202310-202403'], 'geo_file': 'NYCTAXI202310-202403', 'rel_file': 'NYCTAXI202310-202403', 'output_dim': 1, 'init_weight_inf_or_zero': 'inf', 'set_weight_link_or_dist': 'dist', 'calculate_weight_adj': True, 'weight_adj_epsilon': 0.1, 'time_intervals': 3600, 'device': device(type='cuda', index=1), 'exp_id': 17985}
+2024-06-01 09:56:13,807 - INFO - Loaded file NYCTAXI202310-202403.geo, num_nodes=263
+2024-06-01 09:56:13,825 - INFO - set_weight_link_or_dist: dist
+2024-06-01 09:56:13,826 - INFO - init_weight_inf_or_zero: inf
+2024-06-01 09:56:13,944 - INFO - Loaded file NYCTAXI202310-202403.rel, shape=(263, 263)
+2024-06-01 09:56:13,944 - INFO - Start Calculate the weight by Gauss kernel!
+2024-06-01 09:56:13,964 - INFO - set_weight_link_or_dist: dist
+2024-06-01 09:56:13,964 - INFO - init_weight_inf_or_zero: inf
+2024-06-01 09:56:14,084 - INFO - Loaded file NYCTAXI202310-202403.rel, shape=(263, 263)
+2024-06-01 09:56:14,084 - INFO - Start Calculate the weight by Gauss kernel!
+2024-06-01 09:56:14,085 - INFO - Loading ./libcity/cache/dataset_cache/od_based_NYCTAXI_OD_5_5_0.8_0.1_minmax01_64_False_True_False_True.npz
+2024-06-01 09:56:55,804 - INFO - train	x: (3506, 5, 263, 263, 1), y: (3506, 5, 263, 263, 1)
+2024-06-01 09:56:55,804 - INFO - eval	x: (438, 5, 263, 263, 1), y: (438, 5, 263, 263, 1)
+2024-06-01 09:56:55,804 - INFO - test	x: (438, 5, 263, 263, 1), y: (438, 5, 263, 263, 1)
+2024-06-01 09:56:58,742 - INFO - MinMax01Scaler max: 103.0, min: 0.0
+2024-06-01 09:56:58,742 - INFO - NoneScaler
+2024-06-01 09:57:53,720 - INFO - GEML(
+  (GCN_ge): GCN(
+    (gcn): ModuleList(
+      (0-1): 2 x GraphConvolution(
+        (activation): ReLU()
+      )
+    )
+  )
+  (GCN_se): GCN(
+    (gcn): ModuleList(
+      (0-1): 2 x GraphConvolution(
+        (activation): ReLU()
+      )
+    )
+  )
+  (LSTM): SLSTM(
+    (f_gate): Sequential(
+      (0): Linear(in_features=128, out_features=64, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (i_gate): Sequential(
+      (0): Linear(in_features=128, out_features=64, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (o_gate): Sequential(
+      (0): Linear(in_features=128, out_features=64, bias=True)
+      (1): Softmax(dim=1)
+    )
+    (g_gate): Sequential(
+      (0): Linear(in_features=128, out_features=64, bias=True)
+      (1): Tanh()
+    )
+    (tanh): Tanh()
+  )
+  (mutiLearning): MutiLearning()
+)
+2024-06-01 09:57:53,721 - INFO - GCN_ge.gcn.0.weight	torch.Size([263, 32])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - GCN_ge.gcn.1.weight	torch.Size([32, 32])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - GCN_se.gcn.0.weight	torch.Size([263, 32])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - GCN_se.gcn.1.weight	torch.Size([32, 32])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - LSTM.f_gate.0.weight	torch.Size([64, 128])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - LSTM.f_gate.0.bias	torch.Size([64])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - LSTM.i_gate.0.weight	torch.Size([64, 128])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - LSTM.i_gate.0.bias	torch.Size([64])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - LSTM.o_gate.0.weight	torch.Size([64, 128])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - LSTM.o_gate.0.bias	torch.Size([64])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - LSTM.g_gate.0.weight	torch.Size([64, 128])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - LSTM.g_gate.0.bias	torch.Size([64])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - mutiLearning.transition	torch.Size([64, 64])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - mutiLearning.project_in	torch.Size([64, 1])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - mutiLearning.project_out	torch.Size([64, 1])	cuda:1	True
+2024-06-01 09:57:53,721 - INFO - Total parameter numbers: 56128
+2024-06-01 09:57:53,721 - INFO - You select `adam` optimizer.
+2024-06-01 09:57:53,722 - WARNING - Received none train loss func and will use the loss func defined in the model.
+2024-06-01 09:57:53,722 - INFO - Start training ...
+2024-06-01 09:57:53,722 - INFO - num_batches:55
+2024-06-01 09:58:29,525 - INFO - epoch complete!
+2024-06-01 09:58:29,525 - INFO - evaluating now!
+2024-06-01 09:58:33,186 - INFO - Epoch [0/50] train_loss: 570.6823, val_loss: 449.6061, lr: 0.001000, 39.46s
+2024-06-01 09:58:33,191 - INFO - Saved model at 0
+2024-06-01 09:58:33,191 - INFO - Val loss decrease from inf to 449.6061, saving to ./libcity/cache/17985/model_cache/GEML_NYCTAXI_OD_epoch0.tar
+2024-06-01 09:59:08,983 - INFO - epoch complete!
+2024-06-01 09:59:08,984 - INFO - evaluating now!
+2024-06-01 09:59:12,664 - INFO - Epoch [1/50] train_loss: 596.5902, val_loss: 744.8970, lr: 0.001000, 39.47s
+2024-06-01 09:59:45,120 - INFO - epoch complete!
+2024-06-01 09:59:45,120 - INFO - evaluating now!
+2024-06-01 09:59:48,720 - INFO - Epoch [2/50] train_loss: 632.9184, val_loss: 745.0104, lr: 0.001000, 36.06s
+2024-06-01 10:00:21,131 - INFO - epoch complete!
+2024-06-01 10:00:21,132 - INFO - evaluating now!
+2024-06-01 10:00:24,812 - INFO - Epoch [3/50] train_loss: 632.4890, val_loss: 744.5248, lr: 0.001000, 36.09s
+2024-06-01 10:00:57,215 - INFO - epoch complete!
+2024-06-01 10:00:57,216 - INFO - evaluating now!
+2024-06-01 10:01:00,819 - INFO - Epoch [4/50] train_loss: 632.1919, val_loss: 744.4189, lr: 0.001000, 36.01s
+2024-06-01 10:01:33,349 - INFO - epoch complete!
+2024-06-01 10:01:33,350 - INFO - evaluating now!
+2024-06-01 10:01:36,874 - INFO - Epoch [5/50] train_loss: 632.0374, val_loss: 744.0203, lr: 0.001000, 36.06s
+2024-06-01 10:02:09,557 - INFO - epoch complete!
+2024-06-01 10:02:09,557 - INFO - evaluating now!
+2024-06-01 10:02:13,230 - INFO - Epoch [6/50] train_loss: 632.1701, val_loss: 744.6143, lr: 0.001000, 36.36s
+2024-06-01 10:02:45,745 - INFO - epoch complete!
+2024-06-01 10:02:45,745 - INFO - evaluating now!
+2024-06-01 10:02:49,398 - INFO - Epoch [7/50] train_loss: 632.3320, val_loss: 744.4818, lr: 0.001000, 36.17s
+2024-06-01 10:03:22,446 - INFO - epoch complete!
+2024-06-01 10:03:22,446 - INFO - evaluating now!
+2024-06-01 10:03:26,126 - INFO - Epoch [8/50] train_loss: 632.2492, val_loss: 745.0820, lr: 0.001000, 36.73s
+2024-06-01 10:03:58,723 - INFO - epoch complete!
+2024-06-01 10:03:58,723 - INFO - evaluating now!
+2024-06-01 10:04:02,257 - INFO - Epoch [9/50] train_loss: 633.2118, val_loss: 746.1326, lr: 0.001000, 36.13s
